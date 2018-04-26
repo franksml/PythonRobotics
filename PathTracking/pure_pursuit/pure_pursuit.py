@@ -9,11 +9,11 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-k = 0.1  # look forward gain
-Lfc = 1.0  # look-ahead distance
-Kp = 1.0  # speed propotional gain
+k = 0.4  # look forward gain
+Lfc = 0.2  # look-ahead distance
+Kp = 1.7  # speed propotional gain
 dt = 0.1  # [s]
-L = 2.9  # [m] wheel base of vehicle
+L = 0.05  # [m] wheel base of vehicle
 
 
 show_animation = True

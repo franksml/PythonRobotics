@@ -6,7 +6,11 @@ author: Atsushi Sakai (@Atsushi_twi)
 
 """
 import sys
-sys.path.append("../../PathPlanning/CubicSpline/")
+import os
+# sys.path.append("../../PathPlanning/CubicSpline/")
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, "../../PathPlanning/CubicSpline/")
+sys.path.append(os.path.abspath(filename))
 
 import math
 import matplotlib.pyplot as plt
@@ -16,8 +20,8 @@ import cubic_spline_planner
 k = 0.5  # control gain
 Kp = 1.0  # speed propotional gain
 dt = 0.1  # [s] time difference
-L = 2.9  # [m] Wheel base of vehicle
-max_steer = math.radians(30.0)  # [rad] max steering angle
+L = 0.324  # [m] Wheel base of vehicle
+max_steer = math.radians(45.0)  # [rad] max steering angle
 
 show_animation = True
 
@@ -79,7 +83,7 @@ def pi_2_pi(angle):
 
 def calc_target_index(state, cx, cy):
 
-    # calc frant axle position
+    # calc front axle position
     fx = state.x + L * math.cos(state.yaw)
     fy = state.y + L * math.sin(state.yaw)
 

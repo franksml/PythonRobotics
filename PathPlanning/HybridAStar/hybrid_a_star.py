@@ -103,6 +103,11 @@ class Config:
         self.yaww = int(self.maxyaw - self.minyaw)
 
 
+def analytic_expantion(current, ngoal, c, ox, oy, kdtree):
+
+    return False, None  # no update
+
+
 def hybrid_a_star_planning(start, goal, ox, oy, xyreso, yawreso):
     """
     start
@@ -116,7 +121,7 @@ def hybrid_a_star_planning(start, goal, ox, oy, xyreso, yawreso):
     start[2], goal[2] = rs.pi_2_pi(start[2]), rs.pi_2_pi(goal[2])
     tox, toy = ox[:], oy[:]
 
-    #  obkdtree = KDTree(np.vstack((tox, toy)).T)
+    obkdtree = KDTree(np.vstack((tox, toy)).T)
 
     c = Config(tox, toy, xyreso, yawreso)
 
@@ -131,6 +136,20 @@ def hybrid_a_star_planning(start, goal, ox, oy, xyreso, yawreso):
     pq = []
     openList[calc_index(nstart, c)] = nstart
     heapq.heappush(pq, (calc_index(nstart, c), calc_cost(nstart, h, ngoal, c)))
+
+    while True:
+        if not openList:
+            print("Error: Cannot find path, No open set")
+            return [], [], []
+
+        c_id, cost = heapq.heappop(pq)
+        current = openList.pop(c_id)
+        closedList[c_id] = current
+
+        isupdated, fpath = analytic_expantion(
+            current, ngoal, c, ox, oy, obkdtree)
+
+        #  print(current)
 
     rx, ry, ryaw = [], [], []
 
@@ -155,8 +174,7 @@ def calc_index(node, c):
 
 
 def main():
-    print("Start rrt start planning")
-    # ====Search Path with RRT====
+    print("Start Hybrid A* planning")
 
     ox, oy = [], []
 
